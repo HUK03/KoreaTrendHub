@@ -2,14 +2,14 @@ name: Daily Ranking Crawl
 
 on:
   schedule:
-    - cron: '0 15 * * *' # 한국 시간 매일 00:00 (UTC 15:00)
-  workflow_dispatch: # 수동 실행 버튼 활성화
+    - cron: '0 15 * * *'
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # 저장소에 파일을 쓸 수 있는 권한을 부여합니다.
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -21,7 +21,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests beautifulsoup4
+          pip install playwright
+          playwright install chromium  # 브라우저 엔진 설치
 
       - name: Run crawler
         run: python crawler.py
