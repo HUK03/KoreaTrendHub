@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # 저장소에 파일을 쓸 수 있는 권한을 부여합니다.
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
