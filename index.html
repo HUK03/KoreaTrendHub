@@ -5,64 +5,306 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>K-Trend Hub | Real-time Korea Rankings</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
-        .ranking-card:hover { transform: translateY(-5px); transition: all 0.3s ease; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%); }
+        .ranking-card:hover { transform: translateY(-6px); transition: all 0.2s ease; }
+        .surface { background: rgba(255,255,255,0.88); backdrop-filter: blur(6px); }
+        .module-tab { border: 1px solid #cbd5e1; background: #fff; color: #334155; }
+        .module-tab-active { border: 2px solid #0f172a; background: #0f172a; color: #fff; }
+        .store-tab { border: 1px solid #cbd5e1; background: #fff; color: #334155; }
+        .store-tab-active { border: 2px solid #16a34a; background: #f0fdf4; color: #166534; box-shadow: 0 10px 24px rgba(22, 163, 74, 0.16); }
+        .category-tab { border: 1px solid #cbd5e1; background: #fff; color: #334155; }
+        .category-tab-active { background: #16a34a; color: #fff; border: 1px solid #16a34a; }
     </style>
 </head>
 <body>
-    <div class="max-w-5xl mx-auto px-4 py-12">
-        <header class="text-center mb-16">
-            <h1 class="text-4xl font-bold text-slate-900 mb-4">🇰🇷 K-Trend Hub</h1>
-            <p class="text-lg text-slate-600">Explore what Koreans are actually buying and loving right now.</p>
-            <div id="update-time" class="text-sm text-slate-400 mt-2">Loading data...</div>
+    <div class="max-w-6xl mx-auto px-4 py-10">
+        <header class="mb-8">
+            <div class="flex justify-end gap-2 mb-4">
+                <button id="lang-toggle" aria-label="Toggle language" class="px-3 py-1 rounded-full bg-slate-200 text-slate-700 text-sm font-semibold">🌐 한국어</button>
+                <button id="currency-toggle" aria-label="Toggle currency" class="px-3 py-1 rounded-full bg-slate-200 text-slate-700 text-sm font-semibold">💱 USD</button>
+            </div>
+            <h1 class="text-4xl font-extrabold text-slate-900 mb-3 text-center">🇰🇷 K-Trend Hub</h1>
+            <p id="subtitle" class="text-lg text-slate-600 text-center">Explore category rankings from Korean stores.</p>
+            <div id="update-time" class="text-sm text-slate-400 mt-2 text-center">Loading data...</div>
         </header>
 
-        <div class="flex justify-center space-x-4 mb-10">
-            <button class="bg-green-600 text-white px-6 py-2 rounded-full font-semibold">Olive Young Best</button>
-            <button class="bg-slate-200 text-slate-600 px-6 py-2 rounded-full font-semibold cursor-not-allowed">K-Pop (Soon)</button>
-            <button class="bg-slate-200 text-slate-600 px-6 py-2 rounded-full font-semibold cursor-not-allowed">YouTube (Soon)</button>
-        </div>
+        <section class="surface rounded-3xl border border-slate-200 p-5 mb-8 shadow-sm">
+            <h2 id="module-title" class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4">Trend Modules</h2>
+            <div id="module-tabs" class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6"></div>
 
-        <div id="ranking-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div id="shopping-filter-panel" class="border-t border-slate-200 pt-5">
+                <h2 id="store-title" class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4">Store</h2>
+                <div id="source-tabs" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6"></div>
+
+                <div class="border-t border-slate-200 pt-5">
+                    <h2 id="category-title" class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-3">Category</h2>
+                    <div id="category-tabs" class="flex flex-wrap gap-2"></div>
+                </div>
             </div>
+
+            <div id="coming-soon-panel" class="hidden border-t border-slate-200 pt-5">
+                <div class="rounded-2xl bg-slate-50 border border-slate-200 p-6 text-center text-slate-600">
+                    <div id="coming-soon-title" class="font-bold text-lg mb-2">Module coming soon</div>
+                    <div id="coming-soon-desc" class="text-sm">This area is prepared for future ranking types (music, OTT, and more).</div>
+                </div>
+            </div>
+        </section>
+
+        <div id="ranking-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </div>
 
     <script>
-        // data.json 파일을 읽어오는 함수
-        async function fetchRankings() {
-            try {
-                // GitHub Pages에서 동작할 때 상대 경로로 데이터 호출
-                const response = await fetch('./data.json');
-                const data = await response.json();
-                
-                const container = document.getElementById('ranking-container');
-                const timeLabel = document.getElementById('update-time');
-                
-                if (data.length > 0) {
-                    timeLabel.innerText = `Last Updated: ${data[0].updated_at}`;
-                }
+        const labels = {
+            en: {
+                subtitle: 'Explore category rankings from Korean stores.',
+                module: 'Trend Modules',
+                store: 'Store',
+                category: 'Category',
+                noData: 'No ranking data found for this category.',
+                imagePending: 'Image not available',
+                noBrand: 'Unknown brand',
+                noPrice: 'Price unavailable',
+                visit: 'Visit page →',
+                updated: 'Last Updated',
+                storeGuide: 'Select a store first',
+                comingSoonTitle: 'Module coming soon',
+                comingSoonDesc: 'This area is prepared for future ranking types (music, OTT, and more).',
+                items: 'items',
+            },
+            ko: {
+                subtitle: '한국 주요 스토어의 카테고리별 랭킹을 확인하세요.',
+                module: '랭킹 모듈',
+                store: '스토어',
+                category: '카테고리',
+                noData: '해당 카테고리의 랭킹 데이터가 없습니다.',
+                imagePending: '이미지 준비 중',
+                noBrand: '브랜드 정보 없음',
+                noPrice: '가격 정보 없음',
+                visit: '페이지 보기 →',
+                updated: '최종 업데이트',
+                storeGuide: '먼저 스토어를 선택하세요',
+                comingSoonTitle: '준비 중인 모듈입니다',
+                comingSoonDesc: '음악 랭킹, OTT/넷플릭스 랭킹 등 다양한 영역으로 확장할 수 있도록 구조를 준비했습니다.',
+                items: '개',
+            }
+        };
 
-                container.innerHTML = data.map(item => `
-                    <div class="ranking-card bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col">
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="text-3xl font-bold text-green-600">#${item.rank}</span>
-                            <span class="text-xs font-medium bg-slate-100 text-slate-500 px-2 py-1 rounded">Olive Young</span>
+        const modules = [
+            { key: 'shopping', emoji: '🛒', label: { en: 'Shopping', ko: '쇼핑 랭킹' }, enabled: true },
+            { key: 'music', emoji: '🎵', label: { en: 'Music', ko: '음악 랭킹' }, enabled: false },
+            { key: 'ott', emoji: '📺', label: { en: 'OTT / Netflix', ko: 'OTT / 넷플 랭킹' }, enabled: false },
+            { key: 'social', emoji: '📱', label: { en: 'Social Trends', ko: '소셜 트렌드' }, enabled: false },
+        ];
+
+        const storeMeta = {
+            'Olive Young': { emoji: '🫒', accent: 'text-emerald-700' },
+            'Daiso': { emoji: '🛍️', accent: 'text-rose-700' }
+        };
+
+        let payload = { rankings: [], updated_at: '' };
+        let selectedModule = 'shopping';
+        let selectedSource = '';
+        let selectedCategory = '';
+        let language = 'en';
+        let currency = 'KRW';
+
+        function uniqueValues(items, key) {
+            return [...new Set(items.map(item => item[key]).filter(Boolean))];
+        }
+
+        function parsePrice(value) {
+            if (!value) return null;
+            const digits = String(value).replace(/[^\d]/g, '');
+            return digits ? Number(digits) : null;
+        }
+
+        function formatPrice(value) {
+            const amount = parsePrice(value);
+            if (amount === null) return labels[language].noPrice;
+            if (currency === 'USD') {
+                const usd = amount / (payload.fx_rate || 1350);
+                return `$${usd.toFixed(2)}`;
+            }
+            return `₩${amount.toLocaleString('ko-KR')}`;
+        }
+
+        function renderModuleTabs() {
+            const container = document.getElementById('module-tabs');
+            container.innerHTML = modules.map(mod => {
+                const isActive = selectedModule === mod.key;
+                const cls = isActive ? 'module-tab-active' : 'module-tab';
+                const locked = mod.enabled ? '' : 'opacity-70';
+                const state = mod.enabled ? '' : '<span class="text-[10px] rounded-full px-2 py-0.5 bg-slate-200 text-slate-600">Soon</span>';
+                return `
+                    <button data-module="${mod.key}" class="${cls} ${locked} rounded-2xl px-4 py-3 text-left transition-all">
+                        <div class="flex items-center justify-between mb-1"><span class="text-xl">${mod.emoji}</span>${state}</div>
+                        <div class="font-bold text-sm">${mod.label[language]}</div>
+                    </button>
+                `;
+            }).join('');
+
+            container.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const key = button.dataset.module;
+                    selectedModule = key;
+                    renderModuleTabs();
+                    renderModulePanel();
+                });
+            });
+        }
+
+        function renderStoreTabs(values, selected, onClick) {
+            const container = document.getElementById('source-tabs');
+            container.innerHTML = values.map(value => {
+                const activeClass = selected === value ? 'store-tab-active' : 'store-tab';
+                const meta = storeMeta[value] || { emoji: '🏬', accent: 'text-slate-700' };
+                const categoryCount = uniqueValues(payload.rankings.filter(item => item.source === value), 'category').length;
+
+                return `
+                    <button data-value="${value}" class="${activeClass} rounded-2xl px-5 py-4 text-left transition-all">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-2xl">${meta.emoji}</span>
+                            <span class="text-xs font-semibold px-2 py-1 rounded-full bg-slate-100 text-slate-600">${categoryCount} ${labels[language].items}</span>
                         </div>
-                        <div class="mb-2 text-sm font-bold text-slate-400 uppercase tracking-wider">${item.brand}</div>
-                        <div class="text-lg font-semibold text-slate-800 mb-4 flex-grow">${item.name}</div>
-                        <div class="flex justify-between items-center pt-4 border-t border-slate-50">
-                            <span class="text-xl font-bold text-slate-900">₩${item.price}</span>
-                            <a href="https://www.oliveyoung.co.kr/store/main/getBestList.do" target="_blank" class="text-sm text-green-600 font-bold hover:underline">View Detail →</a>
+                        <div class="text-lg font-bold ${meta.accent}">${value}</div>
+                    </button>
+                `;
+            }).join('');
+
+            container.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', () => onClick(button.dataset.value));
+            });
+        }
+
+        function renderCategoryTabs(values, selected, onClick) {
+            const container = document.getElementById('category-tabs');
+            if (!values.length) {
+                container.innerHTML = `<p class="text-sm text-slate-500">${labels[language].storeGuide}</p>`;
+                return;
+            }
+
+            container.innerHTML = values.map(value => {
+                const activeClass = selected === value ? 'category-tab-active' : 'category-tab';
+                return `<button data-value="${value}" class="${activeClass} px-4 py-2 rounded-full font-semibold text-sm transition-all">${value}</button>`;
+            }).join('');
+
+            container.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', () => onClick(button.dataset.value));
+            });
+        }
+
+        function rankingsForSelection() {
+            if (selectedModule !== 'shopping') return [];
+            return payload.rankings.filter(item => item.source === selectedSource && item.category === selectedCategory);
+        }
+
+        function renderCards() {
+            const container = document.getElementById('ranking-container');
+            if (selectedModule !== 'shopping') {
+                container.innerHTML = '';
+                return;
+            }
+
+            const items = rankingsForSelection();
+            if (!items.length) {
+                container.innerHTML = `<p class="text-center col-span-full py-10 text-slate-500">${labels[language].noData}</p>`;
+                return;
+            }
+
+            container.innerHTML = items.map(item => {
+                const image = item.image_url
+                    ? `<img src="${item.image_url}" alt="${item.name}" class="w-full h-44 object-cover rounded-xl mb-4 border border-slate-100" loading="lazy" referrerpolicy="no-referrer">`
+                    : `<div class="w-full h-44 rounded-xl mb-4 border border-dashed border-slate-200 bg-slate-50 text-slate-400 flex items-center justify-center text-sm">${labels[language].imagePending}</div>`;
+
+                return `
+                    <div class="ranking-card bg-white/95 p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col">
+                        ${image}
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-3xl font-bold text-green-600">#${item.rank}</span>
+                            <span class="text-xs font-medium bg-slate-100 text-slate-600 px-2 py-1 rounded">${item.source}</span>
+                        </div>
+                        <div class="mb-1 text-xs font-bold text-slate-400 uppercase tracking-wider">${item.category}</div>
+                        <div class="mb-1 text-sm font-semibold text-slate-500">${item.brand || labels[language].noBrand}</div>
+                        <div class="text-base font-semibold text-slate-800 mb-4 flex-grow">${item.name}</div>
+                        <div class="flex justify-between items-center pt-3 border-t border-slate-100">
+                            <span class="text-lg font-bold text-slate-900">${formatPrice(item.price)}</span>
+                            <a href="${item.link || '#'}" target="_blank" class="text-sm text-green-600 font-bold hover:underline">${labels[language].visit}</a>
                         </div>
                     </div>
-                `).join('');
+                `;
+            }).join('');
+        }
+
+        function renderShoppingFilters() {
+            const sources = uniqueValues(payload.rankings, 'source');
+            if (!selectedSource && sources.length) selectedSource = sources[0];
+            const categories = uniqueValues(payload.rankings.filter(item => item.source === selectedSource), 'category');
+            if (!categories.includes(selectedCategory)) selectedCategory = categories[0] || '';
+
+            renderStoreTabs(sources, selectedSource, (value) => {
+                selectedSource = value;
+                selectedCategory = '';
+                renderShoppingFilters();
+                renderCards();
+            });
+            renderCategoryTabs(categories, selectedCategory, (value) => {
+                selectedCategory = value;
+                renderCards();
+            });
+        }
+
+        function renderModulePanel() {
+            const shoppingPanel = document.getElementById('shopping-filter-panel');
+            const comingSoonPanel = document.getElementById('coming-soon-panel');
+
+            if (selectedModule === 'shopping') {
+                shoppingPanel.classList.remove('hidden');
+                comingSoonPanel.classList.add('hidden');
+                renderShoppingFilters();
+            } else {
+                shoppingPanel.classList.add('hidden');
+                comingSoonPanel.classList.remove('hidden');
+            }
+            renderCards();
+        }
+
+        function applyLanguage() {
+            document.documentElement.lang = language;
+            document.getElementById('subtitle').innerText = labels[language].subtitle;
+            document.getElementById('module-title').innerText = labels[language].module;
+            document.getElementById('store-title').innerText = labels[language].store;
+            document.getElementById('category-title').innerText = labels[language].category;
+            document.getElementById('coming-soon-title').innerText = labels[language].comingSoonTitle;
+            document.getElementById('coming-soon-desc').innerText = labels[language].comingSoonDesc;
+            document.getElementById('lang-toggle').innerText = language === 'en' ? '🌐 한국어' : '🌐 English';
+            document.getElementById('currency-toggle').innerText = currency === 'KRW' ? '💱 USD' : '💱 KRW';
+            document.getElementById('update-time').innerText = `${labels[language].updated}: ${payload.updated_at || '-'}`;
+            renderModuleTabs();
+            renderModulePanel();
+        }
+
+        async function fetchRankings() {
+            try {
+                const response = await fetch('./data.json');
+                payload = await response.json();
+                applyLanguage();
             } catch (error) {
                 console.error('Error fetching data:', error);
-                document.getElementById('ranking-container').innerHTML = `<p class="text-center col-span-full py-10 text-slate-500">Failed to load ranking data. Please try again later.</p>`;
+                document.getElementById('ranking-container').innerHTML = '<p class="text-center col-span-full py-10 text-slate-500">Failed to load ranking data.</p>';
             }
         }
+
+        document.getElementById('lang-toggle').addEventListener('click', () => {
+            language = language === 'en' ? 'ko' : 'en';
+            applyLanguage();
+        });
+
+        document.getElementById('currency-toggle').addEventListener('click', () => {
+            currency = currency === 'KRW' ? 'USD' : 'KRW';
+            applyLanguage();
+        });
 
         fetchRankings();
     </script>

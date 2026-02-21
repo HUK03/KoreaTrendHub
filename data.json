@@ -1,142 +1,18 @@
-[
-    {
-        "rank": 1,
-        "brand": "메디힐",
-        "name": "[15년연속 1위] 메디힐 에센셜 마스크팩 10+1/10매 기획 7종",
-        "price": "10,000",
-        "updated_at": "2026-02-17 15:45:12"
-    },
-    {
-        "rank": 2,
-        "brand": "메디힐",
-        "name": "[8+1매 기획/앰플한병팩] 메디힐 하이퍼 콜라겐 겔 마스크 8+1매 한정 기획",
-        "price": "24,900",
-        "updated_at": "2026-02-17 15:45:12"
-    },
-    {
-        "rank": 3,
-        "brand": "메디힐",
-        "name": "[1위패드/한정기획] 메디힐 더마 패드 100+100매 더블 기획 7종",
-        "price": "28,500",
-        "updated_at": "2026-02-17 15:45:12"
-    },
-    {
-        "rank": 4,
-        "brand": "메디힐",
-        "name": "[단독/1+1] 메디힐 마데카소사이드 흔적 리페어 세럼 40+40ml 더블 기획",
-        "price": "21,900",
-        "updated_at": "2026-02-17 15:45:12"
-    },
-    {
-        "rank": 5,
-        "brand": "라로슈포제",
-        "name": "[2월 올영픽] 라로슈포제 시카플라스트 밤 B5+ 100ml 기획 (+시카토너50ml+시카밤3ml)",
-        "price": "29,900",
-        "updated_at": "2026-02-17 15:45:12"
-    },
-    {
-        "rank": 6,
-        "brand": "메디힐",
-        "name": "[1+1/단독] 메디힐 마데카소사이드 흔적 리페어 더마 크림 50ml+50ml 더블 기획",
-        "price": "23,900",
-        "updated_at": "2026-02-17 15:45:12"
-    },
-    {
-        "rank": 7,
-        "brand": "라로슈포제",
-        "name": "[2월 올영픽] 라로슈포제 시카플라스트 멀티 리페어 크림 100ml 기획 (+15ml+시카밤 3ml)",
-        "price": "37,400",
-        "updated_at": "2026-02-17 15:45:12"
-    },
-    {
-        "rank": 8,
-        "brand": "웰라쥬",
-        "name": "[망곰 콜라보] 웰라쥬 리얼 히알루로닉 블루 100 앰플 75ml 2입 기획 (+크림 20ml+PVC 파우치)",
-        "price": "29,300",
-        "updated_at": "2026-02-17 15:45:12"
-    },
-    {
-        "rank": 9,
-        "brand": "에스트라",
-        "name": "[2월 올영픽/대용량] 에스트라 아토베리어365 크림 150ml 기획 (+크림 10ml+클렌징밀크 30ml)",
-        "price": "39,200",
-        "updated_at": "2026-02-17 15:45:12"
-    },
-    {
-        "rank": 10,
-        "brand": "메디힐",
-        "name": "[1위패드/한정기획] 메디힐 마데카소사이드 흔적 패드 100+100매 더블기획",
-        "price": "28,900",
-        "updated_at": "2026-02-17 15:45:12"
-    },
-    {
-        "rank": 11,
-        "brand": "스킨푸드",
-        "name": "[1+1/망곰 콜라보] 스킨푸드 패드 더블기획 3종(+망곰 얼굴파우치) (당근/감자/복숭아)",
-        "price": "25,900",
-        "updated_at": "2026-02-17 15:45:12"
-    },
-    {
-        "rank": 12,
-        "brand": "마미케어",
-        "name": "[1+1/핑구키링증정] 마미케어 바다포도 레티놀 모공앰플 50ml 리필기획(+핑구,핑가 키링 랜덤증정)",
-        "price": "31,800",
-        "updated_at": "2026-02-17 15:45:12"
-    },
-    {
-        "rank": 13,
-        "brand": "아비브",
-        "name": "[망곰 콜라보] 아비브 어성초 테카 캡슐 세럼 카밍 드롭 50ml 더블 기획 (+러기지택)",
-        "price": "27,800",
-        "updated_at": "2026-02-17 15:45:12"
-    },
-    {
-        "rank": 14,
-        "brand": "페리페라",
-        "name": "[망곰 콜라보] 페리페라 무드 글로이 틴트 22 Colors",
-        "price": "9,300",
-        "updated_at": "2026-02-17 15:45:12"
-    },
-    {
-        "rank": 15,
-        "brand": "일리윤",
-        "name": "일리윤 프레쉬모이스춰 스크럽워시 400ML 2입 기획",
-        "price": "17,900",
-        "updated_at": "2026-02-17 15:45:12"
-    },
-    {
-        "rank": 16,
-        "brand": "코이",
-        "name": "코이 플로우 리프팅 랩핑 크림 50ml 기획 (+괄사마사지기 + 미니 크림 10ml*2ea)",
-        "price": "33,070",
-        "updated_at": "2026-02-17 15:45:12"
-    },
-    {
-        "rank": 17,
-        "brand": "에스네이처",
-        "name": "[2월 올영픽/최다증정특가/모공 수분천재크림] 에스네이처 아쿠아 스쿠알란 수분크림 60ml 더블기획(60ml+60ml)",
-        "price": "21,900",
-        "updated_at": "2026-02-17 15:45:12"
-    },
-    {
-        "rank": 18,
-        "brand": "비플레인",
-        "name": "[망곰 콜라보] 비플레인 녹두 약산성 클렌징폼 160ml 더블 기획 (+동전지갑)",
-        "price": "23,990",
-        "updated_at": "2026-02-17 15:45:12"
-    },
-    {
-        "rank": 19,
-        "brand": "아비브",
-        "name": "[망곰 콜라보] 아비브 어성초 흔적 에센스 패드 클리어터치 70매 기획 (+70매 리필+패드케이스)",
-        "price": "26,200",
-        "updated_at": "2026-02-17 15:45:12"
-    },
-    {
-        "rank": 20,
-        "brand": "일소",
-        "name": "[망곰 콜라보] 일소 슈퍼 멜팅 세범 소프트너 150ml 기획 (+딥 클린 마스터+화장솜 40매)",
-        "price": "17,900",
-        "updated_at": "2026-02-17 15:45:12"
-    }
-]
+{
+  "updated_at": "2026-02-19 12:00:00",
+  "fx_rate": 1350,
+  "rankings": [
+    {"rank": 1, "source": "Olive Young", "category": "스킨케어", "brand": "Mediheal", "name": "Essential Mask Pack 10+1", "price": "10,000", "image_url": "", "link": "https://www.oliveyoung.co.kr/store/main/getBestList.do?dispCatNo=10000010001"},
+    {"rank": 2, "source": "Olive Young", "category": "스킨케어", "brand": "Aestura", "name": "Atobarrier 365 Cream 150ml", "price": "39,200", "image_url": "", "link": "https://www.oliveyoung.co.kr/store/main/getBestList.do?dispCatNo=10000010001"},
+    {"rank": 1, "source": "Olive Young", "category": "메이크업", "brand": "Peripera", "name": "Mood Glowy Tint", "price": "9,300", "image_url": "", "link": "https://www.oliveyoung.co.kr/store/main/getBestList.do?dispCatNo=10000010002"},
+    {"rank": 2, "source": "Olive Young", "category": "메이크업", "brand": "WAKEMAKE", "name": "Soft Blurring Eye Palette", "price": "27,000", "image_url": "", "link": "https://www.oliveyoung.co.kr/store/main/getBestList.do?dispCatNo=10000010002"},
+    {"rank": 1, "source": "Olive Young", "category": "헬스/푸드", "brand": "락토핏", "name": "Gold Probiotic 50 Sticks", "price": "19,900", "image_url": "", "link": "https://www.oliveyoung.co.kr/store/main/getBestList.do?dispCatNo=10000010003"},
+    {"rank": 2, "source": "Olive Young", "category": "헬스/푸드", "brand": "정관장", "name": "Hong Sam Jung Everytime", "price": "35,000", "image_url": "", "link": "https://www.oliveyoung.co.kr/store/main/getBestList.do?dispCatNo=10000010003"},
+    {"rank": 1, "source": "Daiso", "category": "리빙", "brand": "Daiso", "name": "Storage Basket (Large)", "price": "3,000", "image_url": "", "link": "https://www.daisomall.co.kr/ds/rank/C105"},
+    {"rank": 2, "source": "Daiso", "category": "리빙", "brand": "Daiso", "name": "Laundry Mesh Bag", "price": "2,000", "image_url": "", "link": "https://www.daisomall.co.kr/ds/rank/C105"},
+    {"rank": 1, "source": "Daiso", "category": "뷰티", "brand": "TAG", "name": "Dual Eyeshadow Brush", "price": "2,000", "image_url": "", "link": "https://www.daisomall.co.kr/ds/rank/C103"},
+    {"rank": 2, "source": "Daiso", "category": "뷰티", "brand": "Daiso", "name": "Cotton Puff 220pcs", "price": "1,000", "image_url": "", "link": "https://www.daisomall.co.kr/ds/rank/C103"},
+    {"rank": 1, "source": "Daiso", "category": "주방/식기", "brand": "Daiso", "name": "Silicone Cooking Tongs", "price": "2,000", "image_url": "", "link": "https://www.daisomall.co.kr/ds/rank/C101"},
+    {"rank": 2, "source": "Daiso", "category": "주방/식기", "brand": "Daiso", "name": "Glass Food Container 650ml", "price": "5,000", "image_url": "", "link": "https://www.daisomall.co.kr/ds/rank/C101"}
+  ]
+}
