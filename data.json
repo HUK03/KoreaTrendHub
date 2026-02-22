@@ -2,9 +2,10 @@
   "updated_at": "2026-02-21 10:00:00",
   "fx_rate": 1350,
   "translation": {
-    "provider": "deepl(optional)",
+    "provider": "deepl_or_google_ai(optional)",
     "cache_file": "translation_cache.json",
-    "languages": ["ko", "en", "ja"]
+    "languages": ["ko", "en", "ja"],
+    "keys": ["DEEPL_API_KEY", "GEMINI_API_KEY"]
   },
   "rankings": [
     {

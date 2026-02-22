@@ -133,6 +133,51 @@ def translate_with_deepl(text, target_lang):
         return None
 
 
+def translate_with_google_ai(text, target_lang):
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key or not text:
+        return None
+
+    lang_map = {"EN": "English", "JA": "Japanese"}
+    language_name = lang_map.get(target_lang, "English")
+
+    payload = {
+        "contents": [
+            {
+                "parts": [
+                    {
+                        "text": (
+                            f"Translate the following Korean product text into natural {language_name}. "
+                            "Return translated text only.\n"
+                            f"Text: {text}"
+                        )
+                    }
+                ]
+            }
+        ]
+    }
+
+    request = Request(
+        f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}",
+        data=json.dumps(payload).encode("utf-8"),
+        headers={"Content-Type": "application/json"},
+    )
+
+    try:
+        with urlopen(request, timeout=20) as response:
+            result = json.loads(response.read().decode("utf-8"))
+            return result["candidates"][0]["content"]["parts"][0]["text"].strip()
+    except Exception:
+        return None
+
+
+def translate_text(text, target_lang):
+    return (
+        translate_with_deepl(text, target_lang)
+        or translate_with_google_ai(text, target_lang)
+    )
+
+
 def build_i18n(text, cache):
     key = text.strip()
     if not key:
@@ -143,9 +188,9 @@ def build_i18n(text, cache):
     ja = cached.get("ja")
 
     if not en:
-        en = translate_with_deepl(key, "EN") or key
+        en = translate_text(key, "EN") or key
     if not ja:
-        ja = translate_with_deepl(key, "JA") or key
+        ja = translate_text(key, "JA") or key
 
     cache[key] = {"en": en, "ja": ja}
     return {"ko": key, "en": en, "ja": ja}
@@ -209,9 +254,10 @@ def collect_all_rankings():
         "updated_at": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "fx_rate": 1350,
         "translation": {
-            "provider": "deepl(optional)",
+            "provider": "deepl_or_google_ai(optional)",
             "cache_file": TRANSLATION_CACHE_FILE,
             "languages": ["ko", "en", "ja"],
+            "keys": ["DEEPL_API_KEY", "GEMINI_API_KEY"],
         },
         "rankings": all_rankings,
     }
