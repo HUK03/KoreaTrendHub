@@ -22,7 +22,7 @@
     <div class="max-w-6xl mx-auto px-4 py-10">
         <header class="mb-8">
             <div class="flex justify-end gap-2 mb-4">
-                <button id="lang-toggle" aria-label="Toggle language" class="px-3 py-1 rounded-full bg-slate-200 text-slate-700 text-sm font-semibold">🌐 한국어</button>
+                <button id="lang-toggle" aria-label="Toggle language" class="px-3 py-1 rounded-full bg-slate-200 text-slate-700 text-sm font-semibold">🌐 English</button>
                 <button id="currency-toggle" aria-label="Toggle currency" class="px-3 py-1 rounded-full bg-slate-200 text-slate-700 text-sm font-semibold">💱 USD</button>
             </div>
             <h1 class="text-4xl font-extrabold text-slate-900 mb-3 text-center">🇰🇷 K-Trend Hub</h1>
@@ -58,45 +58,34 @@
     <script>
         const labels = {
             en: {
-                subtitle: 'Explore category rankings from Korean stores.',
-                module: 'Trend Modules',
-                store: 'Store',
-                category: 'Category',
-                noData: 'No ranking data found for this category.',
-                imagePending: 'Image not available',
-                noBrand: 'Unknown brand',
-                noPrice: 'Price unavailable',
-                visit: 'Visit page →',
-                updated: 'Last Updated',
-                storeGuide: 'Select a store first',
-                comingSoonTitle: 'Module coming soon',
-                comingSoonDesc: 'This area is prepared for future ranking types (music, OTT, and more).',
-                items: 'items',
+                subtitle: 'Explore category rankings from Korean stores.', module: 'Trend Modules', store: 'Store', category: 'Category',
+                noData: 'No ranking data found for this category.', imagePending: 'Image not available', noBrand: 'Unknown brand',
+                noPrice: 'Price unavailable', visit: 'Visit page →', updated: 'Last Updated', storeGuide: 'Select a store first',
+                comingSoonTitle: 'Module coming soon', comingSoonDesc: 'This area is prepared for future ranking types (music, OTT, and more).', items: 'items'
             },
             ko: {
-                subtitle: '한국 주요 스토어의 카테고리별 랭킹을 확인하세요.',
-                module: '랭킹 모듈',
-                store: '스토어',
-                category: '카테고리',
-                noData: '해당 카테고리의 랭킹 데이터가 없습니다.',
-                imagePending: '이미지 준비 중',
-                noBrand: '브랜드 정보 없음',
-                noPrice: '가격 정보 없음',
-                visit: '페이지 보기 →',
-                updated: '최종 업데이트',
-                storeGuide: '먼저 스토어를 선택하세요',
-                comingSoonTitle: '준비 중인 모듈입니다',
-                comingSoonDesc: '음악 랭킹, OTT/넷플릭스 랭킹 등 다양한 영역으로 확장할 수 있도록 구조를 준비했습니다.',
-                items: '개',
+                subtitle: '한국 주요 스토어의 카테고리별 랭킹을 확인하세요.', module: '랭킹 모듈', store: '스토어', category: '카테고리',
+                noData: '해당 카테고리의 랭킹 데이터가 없습니다.', imagePending: '이미지 준비 중', noBrand: '브랜드 정보 없음',
+                noPrice: '가격 정보 없음', visit: '페이지 보기 →', updated: '최종 업데이트', storeGuide: '먼저 스토어를 선택하세요',
+                comingSoonTitle: '준비 중인 모듈입니다', comingSoonDesc: '음악 랭킹, OTT/넷플릭스 랭킹 등 다양한 영역으로 확장할 수 있도록 구조를 준비했습니다.', items: '개'
+            },
+            ja: {
+                subtitle: '韓国ストアのカテゴリ別ランキングを確認できます。', module: 'ランキングモジュール', store: 'ストア', category: 'カテゴリ',
+                noData: 'このカテゴリのランキングデータがありません。', imagePending: '画像準備中', noBrand: 'ブランド情報なし',
+                noPrice: '価格情報なし', visit: 'ページを見る →', updated: '最終更新', storeGuide: '先にストアを選択してください',
+                comingSoonTitle: '準備中のモジュールです', comingSoonDesc: '音楽ランキング、OTT/Netflixランキングなど、今後拡張可能な構成です。', items: '件'
             }
         };
 
         const modules = [
-            { key: 'shopping', emoji: '🛒', label: { en: 'Shopping', ko: '쇼핑 랭킹' }, enabled: true },
-            { key: 'music', emoji: '🎵', label: { en: 'Music', ko: '음악 랭킹' }, enabled: false },
-            { key: 'ott', emoji: '📺', label: { en: 'OTT / Netflix', ko: 'OTT / 넷플 랭킹' }, enabled: false },
-            { key: 'social', emoji: '📱', label: { en: 'Social Trends', ko: '소셜 트렌드' }, enabled: false },
+            { key: 'shopping', emoji: '🛒', label: { en: 'Shopping', ko: '쇼핑 랭킹', ja: 'ショッピング' }, enabled: true },
+            { key: 'music', emoji: '🎵', label: { en: 'Music', ko: '음악 랭킹', ja: '音楽ランキング' }, enabled: false },
+            { key: 'ott', emoji: '📺', label: { en: 'OTT / Netflix', ko: 'OTT / 넷플 랭킹', ja: 'OTT / Netflix' }, enabled: false },
+            { key: 'social', emoji: '📱', label: { en: 'Social Trends', ko: '소셜 트렌드', ja: 'ソーシャルトレンド' }, enabled: false },
         ];
+
+        const languageOrder = ['en', 'ko', 'ja'];
+        const languageButtonLabel = { en: 'English', ko: '한국어', ja: '日本語' };
 
         const storeMeta = {
             'Olive Young': { emoji: '🫒', accent: 'text-emerald-700' },
@@ -109,6 +98,13 @@
         let selectedCategory = '';
         let language = 'en';
         let currency = 'KRW';
+
+        function getLocalizedText(item, field) {
+            const i18n = item?.[`${field}_i18n`];
+            if (i18n && i18n[language]) return i18n[language];
+            if (i18n && i18n.en) return i18n.en;
+            return item?.[field] || '';
+        }
 
         function uniqueValues(items, key) {
             return [...new Set(items.map(item => item[key]).filter(Boolean))];
@@ -147,8 +143,7 @@
 
             container.querySelectorAll('button').forEach(button => {
                 button.addEventListener('click', () => {
-                    const key = button.dataset.module;
-                    selectedModule = key;
+                    selectedModule = button.dataset.module;
                     renderModuleTabs();
                     renderModulePanel();
                 });
@@ -214,8 +209,11 @@
             }
 
             container.innerHTML = items.map(item => {
+                const localizedName = getLocalizedText(item, 'name');
+                const localizedBrand = getLocalizedText(item, 'brand');
+                const localizedCategory = getLocalizedText(item, 'category');
                 const image = item.image_url
-                    ? `<img src="${item.image_url}" alt="${item.name}" class="w-full h-44 object-cover rounded-xl mb-4 border border-slate-100" loading="lazy" referrerpolicy="no-referrer">`
+                    ? `<img src="${item.image_url}" alt="${localizedName}" class="w-full h-44 object-cover rounded-xl mb-4 border border-slate-100" loading="lazy" referrerpolicy="no-referrer">`
                     : `<div class="w-full h-44 rounded-xl mb-4 border border-dashed border-slate-200 bg-slate-50 text-slate-400 flex items-center justify-center text-sm">${labels[language].imagePending}</div>`;
 
                 return `
@@ -225,9 +223,9 @@
                             <span class="text-3xl font-bold text-green-600">#${item.rank}</span>
                             <span class="text-xs font-medium bg-slate-100 text-slate-600 px-2 py-1 rounded">${item.source}</span>
                         </div>
-                        <div class="mb-1 text-xs font-bold text-slate-400 uppercase tracking-wider">${item.category}</div>
-                        <div class="mb-1 text-sm font-semibold text-slate-500">${item.brand || labels[language].noBrand}</div>
-                        <div class="text-base font-semibold text-slate-800 mb-4 flex-grow">${item.name}</div>
+                        <div class="mb-1 text-xs font-bold text-slate-400 uppercase tracking-wider">${localizedCategory}</div>
+                        <div class="mb-1 text-sm font-semibold text-slate-500">${localizedBrand || labels[language].noBrand}</div>
+                        <div class="text-base font-semibold text-slate-800 mb-4 flex-grow">${localizedName}</div>
                         <div class="flex justify-between items-center pt-3 border-t border-slate-100">
                             <span class="text-lg font-bold text-slate-900">${formatPrice(item.price)}</span>
                             <a href="${item.link || '#'}" target="_blank" class="text-sm text-green-600 font-bold hover:underline">${labels[language].visit}</a>
@@ -249,6 +247,7 @@
                 renderShoppingFilters();
                 renderCards();
             });
+
             renderCategoryTabs(categories, selectedCategory, (value) => {
                 selectedCategory = value;
                 renderCards();
@@ -278,7 +277,7 @@
             document.getElementById('category-title').innerText = labels[language].category;
             document.getElementById('coming-soon-title').innerText = labels[language].comingSoonTitle;
             document.getElementById('coming-soon-desc').innerText = labels[language].comingSoonDesc;
-            document.getElementById('lang-toggle').innerText = language === 'en' ? '🌐 한국어' : '🌐 English';
+            document.getElementById('lang-toggle').innerText = `🌐 ${languageButtonLabel[language]}`;
             document.getElementById('currency-toggle').innerText = currency === 'KRW' ? '💱 USD' : '💱 KRW';
             document.getElementById('update-time').innerText = `${labels[language].updated}: ${payload.updated_at || '-'}`;
             renderModuleTabs();
@@ -297,7 +296,8 @@
         }
 
         document.getElementById('lang-toggle').addEventListener('click', () => {
-            language = language === 'en' ? 'ko' : 'en';
+            const idx = languageOrder.indexOf(language);
+            language = languageOrder[(idx + 1) % languageOrder.length];
             applyLanguage();
         });
 

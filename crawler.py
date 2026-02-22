@@ -1,11 +1,15 @@
 import datetime
 import json
+import os
 import re
 from html import unescape
 from urllib.error import HTTPError, URLError
+from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+TRANSLATION_CACHE_FILE = "translation_cache.json"
+MAX_RANK_PER_CATEGORY = 30
 
 CATEGORY_CONFIGS = [
     {
@@ -88,7 +92,66 @@ def first_match(pattern, text, default=""):
     return clean_text(match.group(1)) if match else default
 
 
-def parse_rankings(config, html, limit=20):
+def load_translation_cache():
+    if not os.path.exists(TRANSLATION_CACHE_FILE):
+        return {}
+    try:
+        with open(TRANSLATION_CACHE_FILE, "r", encoding="utf-8") as file:
+            return json.load(file)
+    except Exception:
+        return {}
+
+
+def save_translation_cache(cache):
+    with open(TRANSLATION_CACHE_FILE, "w", encoding="utf-8") as file:
+        json.dump(cache, file, ensure_ascii=False, indent=2)
+
+
+def translate_with_deepl(text, target_lang):
+    api_key = os.getenv("DEEPL_API_KEY")
+    if not api_key or not text:
+        return None
+
+    payload = urlencode({
+        "auth_key": api_key,
+        "text": text,
+        "target_lang": target_lang,
+        "source_lang": "KO",
+    }).encode("utf-8")
+
+    request = Request(
+        "https://api-free.deepl.com/v2/translate",
+        data=payload,
+        headers={"Content-Type": "application/x-www-form-urlencoded"},
+    )
+
+    try:
+        with urlopen(request, timeout=20) as response:
+            result = json.loads(response.read().decode("utf-8"))
+            return result["translations"][0]["text"]
+    except Exception:
+        return None
+
+
+def build_i18n(text, cache):
+    key = text.strip()
+    if not key:
+        return {"ko": "", "en": "", "ja": ""}
+
+    cached = cache.get(key, {})
+    en = cached.get("en")
+    ja = cached.get("ja")
+
+    if not en:
+        en = translate_with_deepl(key, "EN") or key
+    if not ja:
+        ja = translate_with_deepl(key, "JA") or key
+
+    cache[key] = {"en": en, "ja": ja}
+    return {"ko": key, "en": en, "ja": ja}
+
+
+def parse_rankings(config, html, cache, limit=MAX_RANK_PER_CATEGORY):
     blocks = re.findall(config["item_pattern"], html, re.IGNORECASE | re.DOTALL)
     rankings = []
 
@@ -97,13 +160,21 @@ def parse_rankings(config, html, limit=20):
         if not name:
             continue
 
+        brand = first_match(config["brand_pattern"], block, "Unknown")
+        category_i18n = build_i18n(config["category"], cache)
+        brand_i18n = build_i18n(brand, cache)
+        name_i18n = build_i18n(name, cache)
+
         rankings.append(
             {
                 "rank": len(rankings) + 1,
                 "source": config["source"],
                 "category": config["category"],
-                "brand": first_match(config["brand_pattern"], block, "Unknown"),
+                "category_i18n": category_i18n,
+                "brand": brand,
+                "brand_i18n": brand_i18n,
                 "name": name,
+                "name_i18n": name_i18n,
                 "price": first_match(config["price_pattern"], block, ""),
                 "image_url": first_match(config["image_pattern"], block, ""),
                 "link": config["url"],
@@ -118,12 +189,13 @@ def parse_rankings(config, html, limit=20):
 
 def collect_all_rankings():
     all_rankings = []
+    translation_cache = load_translation_cache()
 
     for config in CATEGORY_CONFIGS:
         print(f"[{config['source']} - {config['category']}] fetching {config['url']}")
         try:
             html = fetch_html(config["url"])
-            parsed = parse_rankings(config, html)
+            parsed = parse_rankings(config, html, translation_cache)
             print(f"[{config['source']} - {config['category']}] parsed {len(parsed)}")
             all_rankings.extend(parsed)
         except (HTTPError, URLError, TimeoutError) as error:
@@ -131,9 +203,16 @@ def collect_all_rankings():
         except Exception as error:
             print(f"[{config['source']} - {config['category']}] parse failed: {error}")
 
+    save_translation_cache(translation_cache)
+
     return {
         "updated_at": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "fx_rate": 1350,
+        "translation": {
+            "provider": "deepl(optional)",
+            "cache_file": TRANSLATION_CACHE_FILE,
+            "languages": ["ko", "en", "ja"],
+        },
         "rankings": all_rankings,
     }
 

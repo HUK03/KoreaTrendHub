@@ -1,18 +1,63 @@
 {
-  "updated_at": "2026-02-19 12:00:00",
+  "updated_at": "2026-02-21 10:00:00",
   "fx_rate": 1350,
+  "translation": {
+    "provider": "deepl(optional)",
+    "cache_file": "translation_cache.json",
+    "languages": ["ko", "en", "ja"]
+  },
   "rankings": [
-    {"rank": 1, "source": "Olive Young", "category": "스킨케어", "brand": "Mediheal", "name": "Essential Mask Pack 10+1", "price": "10,000", "image_url": "", "link": "https://www.oliveyoung.co.kr/store/main/getBestList.do?dispCatNo=10000010001"},
-    {"rank": 2, "source": "Olive Young", "category": "스킨케어", "brand": "Aestura", "name": "Atobarrier 365 Cream 150ml", "price": "39,200", "image_url": "", "link": "https://www.oliveyoung.co.kr/store/main/getBestList.do?dispCatNo=10000010001"},
-    {"rank": 1, "source": "Olive Young", "category": "메이크업", "brand": "Peripera", "name": "Mood Glowy Tint", "price": "9,300", "image_url": "", "link": "https://www.oliveyoung.co.kr/store/main/getBestList.do?dispCatNo=10000010002"},
-    {"rank": 2, "source": "Olive Young", "category": "메이크업", "brand": "WAKEMAKE", "name": "Soft Blurring Eye Palette", "price": "27,000", "image_url": "", "link": "https://www.oliveyoung.co.kr/store/main/getBestList.do?dispCatNo=10000010002"},
-    {"rank": 1, "source": "Olive Young", "category": "헬스/푸드", "brand": "락토핏", "name": "Gold Probiotic 50 Sticks", "price": "19,900", "image_url": "", "link": "https://www.oliveyoung.co.kr/store/main/getBestList.do?dispCatNo=10000010003"},
-    {"rank": 2, "source": "Olive Young", "category": "헬스/푸드", "brand": "정관장", "name": "Hong Sam Jung Everytime", "price": "35,000", "image_url": "", "link": "https://www.oliveyoung.co.kr/store/main/getBestList.do?dispCatNo=10000010003"},
-    {"rank": 1, "source": "Daiso", "category": "리빙", "brand": "Daiso", "name": "Storage Basket (Large)", "price": "3,000", "image_url": "", "link": "https://www.daisomall.co.kr/ds/rank/C105"},
-    {"rank": 2, "source": "Daiso", "category": "리빙", "brand": "Daiso", "name": "Laundry Mesh Bag", "price": "2,000", "image_url": "", "link": "https://www.daisomall.co.kr/ds/rank/C105"},
-    {"rank": 1, "source": "Daiso", "category": "뷰티", "brand": "TAG", "name": "Dual Eyeshadow Brush", "price": "2,000", "image_url": "", "link": "https://www.daisomall.co.kr/ds/rank/C103"},
-    {"rank": 2, "source": "Daiso", "category": "뷰티", "brand": "Daiso", "name": "Cotton Puff 220pcs", "price": "1,000", "image_url": "", "link": "https://www.daisomall.co.kr/ds/rank/C103"},
-    {"rank": 1, "source": "Daiso", "category": "주방/식기", "brand": "Daiso", "name": "Silicone Cooking Tongs", "price": "2,000", "image_url": "", "link": "https://www.daisomall.co.kr/ds/rank/C101"},
-    {"rank": 2, "source": "Daiso", "category": "주방/식기", "brand": "Daiso", "name": "Glass Food Container 650ml", "price": "5,000", "image_url": "", "link": "https://www.daisomall.co.kr/ds/rank/C101"}
+    {
+      "rank": 1,
+      "source": "Olive Young",
+      "category": "스킨케어",
+      "category_i18n": {"ko": "스킨케어", "en": "Skincare", "ja": "スキンケア"},
+      "brand": "메디힐",
+      "brand_i18n": {"ko": "메디힐", "en": "Mediheal", "ja": "メディヒール"},
+      "name": "에센셜 마스크팩 10+1",
+      "name_i18n": {"ko": "에센셜 마스크팩 10+1", "en": "Essential Mask Pack 10+1", "ja": "エッセンシャルマスクパック 10+1"},
+      "price": "10,000",
+      "image_url": "",
+      "link": "https://www.oliveyoung.co.kr/store/main/getBestList.do?dispCatNo=10000010001"
+    },
+    {
+      "rank": 2,
+      "source": "Olive Young",
+      "category": "스킨케어",
+      "category_i18n": {"ko": "스킨케어", "en": "Skincare", "ja": "スキンケア"},
+      "brand": "에스트라",
+      "brand_i18n": {"ko": "에스트라", "en": "Aestura", "ja": "エストラ"},
+      "name": "아토베리어 365 크림 150ml",
+      "name_i18n": {"ko": "아토베리어 365 크림 150ml", "en": "Atobarrier 365 Cream 150ml", "ja": "アトバリア365クリーム 150ml"},
+      "price": "39,200",
+      "image_url": "",
+      "link": "https://www.oliveyoung.co.kr/store/main/getBestList.do?dispCatNo=10000010001"
+    },
+    {
+      "rank": 1,
+      "source": "Daiso",
+      "category": "리빙",
+      "category_i18n": {"ko": "리빙", "en": "Living", "ja": "リビング"},
+      "brand": "다이소",
+      "brand_i18n": {"ko": "다이소", "en": "Daiso", "ja": "ダイソー"},
+      "name": "수납 바스켓 대형",
+      "name_i18n": {"ko": "수납 바스켓 대형", "en": "Storage Basket (Large)", "ja": "収納バスケット（大型）"},
+      "price": "3,000",
+      "image_url": "",
+      "link": "https://www.daisomall.co.kr/ds/rank/C105"
+    },
+    {
+      "rank": 2,
+      "source": "Daiso",
+      "category": "리빙",
+      "category_i18n": {"ko": "리빙", "en": "Living", "ja": "リビング"},
+      "brand": "다이소",
+      "brand_i18n": {"ko": "다이소", "en": "Daiso", "ja": "ダイソー"},
+      "name": "세탁망",
+      "name_i18n": {"ko": "세탁망", "en": "Laundry Mesh Bag", "ja": "洗濯ネット"},
+      "price": "2,000",
+      "image_url": "",
+      "link": "https://www.daisomall.co.kr/ds/rank/C105"
+    }
   ]
 }
